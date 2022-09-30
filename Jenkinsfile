@@ -5,7 +5,7 @@ pipeline {
     registry = "kirill123433353463/python_app"
     registryCredential = 'dockerhub'
   }
-  agent { label 'master'}
+  agent any
   stages {
         stage('Cloning Git') {
       steps {
