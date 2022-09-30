@@ -13,8 +13,9 @@ pipeline {
     
     stage ("Lint dockerfile") {
         agent {
-            any {
+            docker {
                 image 'hadolint/hadolint:latest-debian'
+                any
                 //image 'ghcr.io/hadolint/hadolint:latest-debian'
             }
         }
