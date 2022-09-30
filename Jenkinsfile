@@ -1,31 +1,31 @@
-def stagestatus = [:]
-
 pipeline {
       environment {
     registry = "kirill123433353463/python_app"
     registryCredential = 'dockerhub'
   }
-  agent any
+  agent { label 'master'}
   stages {
-        stage('Cloning Git') {
+    stage('Cloning Git') {
       steps {
         git 'https://github.com/pluhin/docker_build.git'
       }
     }
     
-    stage("Test Dockerfile with linter") {
-      steps {
-        script {
-          try {
-          echo "Linting Dockerfile..."
-          sh 'hadolint --ignore DL3018 --ignore DL3013 --ignore DL3019 --ignore DL4003 Dockerfile > lint_report.txt'
-          archiveArtifacts artifacts: 'lint_report.txt'
-          } catch (Exception err) {
-            stagestatus.dockerfile_lint = "Linting failure"
-            error "Something wrong with Dockerfile"
-          }
+    stage ("Lint dockerfile") {
+        agent {
+            docker {
+                image 'hadolint/hadolint:latest-debian'
+                //image 'ghcr.io/hadolint/hadolint:latest-debian'
+            }
         }
-      }
+        steps {
+            sh 'hadolint Dockerfile | tee -a hadolint_lint.txt'
+        }
+        post {
+            always {
+                archiveArtifacts 'hadolint_lint.txt'
+            }
+        }
     }
 
     stage('Building image') {
@@ -53,4 +53,3 @@ pipeline {
     } 
   }
 }
-
