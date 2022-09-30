@@ -1,13 +1,13 @@
 def stagestatus = [:]
 
 pipeline {
-  environment {
+      environment {
     registry = "kirill123433353463/python_app"
     registryCredential = 'dockerhub'
   }
   agent { label 'master'}
   stages {
-    stage('Cloning Git') {
+        stage('Cloning Git') {
       steps {
         git 'https://github.com/pluhin/docker_build.git'
       }
@@ -50,5 +50,7 @@ pipeline {
           }
         }
       }
-    }
-  }   
+    } 
+  }
+}
+
