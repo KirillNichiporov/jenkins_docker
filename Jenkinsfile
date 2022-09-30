@@ -3,7 +3,7 @@ pipeline {
     registry = "kirill123433353463/python_app"
     registryCredential = 'dockerhub'
   }
-  agent { label 'master'}
+  agent any
   stages {
     stage('Cloning Git') {
       steps {
@@ -13,7 +13,7 @@ pipeline {
     
     stage ("Lint dockerfile") {
         agent {
-            docker {
+            any {
                 image 'hadolint/hadolint:latest-debian'
                 //image 'ghcr.io/hadolint/hadolint:latest-debian'
             }
