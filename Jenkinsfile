@@ -15,7 +15,7 @@ pipeline {
         agent {
             docker {
                 image 'hadolint/hadolint:latest-debian'
-                any
+                label 'master'
                 //image 'ghcr.io/hadolint/hadolint:latest-debian'
             }
         }
