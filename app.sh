@@ -1,7 +1,7 @@
 #!/bin/bash
 
-set -m
+#set -m
 
-/python_app/server.py &
-/python_app/client.py
-
+#/python_app/server.py &
+#/python_app/client.py
+echo "OK"
