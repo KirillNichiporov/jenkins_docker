@@ -51,6 +51,46 @@ pipeline {
           }
         }
       }
-    } 
+    }
+    stage('Deploy in pre-prod') {
+      steps{
+        script {
+          sh "kubectl apply -f jenk21.yaml --namespace=pre-prod"
+          sleep 4
+          sh "kubectl get pods --namespace=pre=prod"
+        }
+      }
+    }
+    stage('Deploy in pre-prod') {
+      steps{
+        script {
+          catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
+            def depl = true
+            try{
+              input("Deploy in prod?")
+            }
+            catch(err){
+              depl = false
+            }
+            try{
+              if(depl){
+                sh "kubectl apply -f jenk21.yaml"
+                sleep 4
+                sh "kubectl get pods --namespace=prod"
+                sh "kubectl delete -f jenk21.yaml --namespace=pre-prod"
+              }
+            }
+          }
+        }
+      }
+    }  
+  }
+  post {
+    success {
+      slackSend (color: '#00FF00', message: "Deployment success: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'")
+    }
+    failure {
+      slackSend (color: '#FF0000', message: "Deployment failed: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'")
+    }
   }
 }
