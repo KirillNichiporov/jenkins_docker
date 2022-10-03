@@ -29,7 +29,7 @@ spec:
         app: jenkins21
     spec:
       containers:
-      - image: voyager1122/jks21:latest
+      - image: kirill123433353463/python_app:latest
         name: jenkins21
         env:
         ports:
