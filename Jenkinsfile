@@ -61,7 +61,7 @@ pipeline {
         }
       }
     }
-    stage('Deploy in pre-prod') {
+    stage('Deploy in prod') {
       steps{
         script {
           catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
