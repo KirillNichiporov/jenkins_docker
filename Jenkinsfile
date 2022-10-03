@@ -80,6 +80,9 @@ pipeline {
                 sh "kubectl delete -f jenk21.yaml --namespace=pre-prod"
               }
             }
+            catch(Exception err){
+              error "Deployment filed"
+            }
           }
         }
       }
