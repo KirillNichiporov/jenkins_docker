@@ -39,7 +39,7 @@ pipeline {
     }
     stage('Test image') {
       steps{
-        sh "docker run -i $registry:$BUILD_NUMBER"
+        sh "docker run -i $registry:latest"
       }
     }
     
